@@ -37,7 +37,63 @@ MySQL²å¼þÊ½µÄ´æ´¢ÒýÇæ¼Ü¹¹Ìá¹©ÁËÒ»ÏµÁÐ±ê×¼µÄ¹ÜÀíºÍ·þÎñÖ§³Ö£¬ÕâÐ©±ê×¼Óë´æ´¢ÒýÇæ±¾É
 ÐèÒªÌØ±ð×¢ÒâµÄÊÇ£¬´æ´¢ÒýÇæÊÇ»ùÓÚ±íµÄ£¬¶ø²»ÊÇÊý¾Ý¿â¡£
 
 
+<h2>1.3 MySQL´æ´¢ÒýÇæ </h2>
+MySQL´æ´¢ÒýÇæÊÇÇø±ðÓÚÆäËûÊý¾Ý¿âµÄÒ»¸öÖØÒªÌØÐÔ¡£
+´æ´¢ÒýÇæµÄºÃ´¦ÊÇ£¬Ã¿¸ö´æ´¢ÒýÇæ¶¼ÓÐ¸÷×ÔµÄÌØµã£¬ÄÜ¹»¸ù¾Ý¾ßÌåµÄÓ¦ÓÃ½¨Á¢²»Í¬µÄ´æ´¢ÒýÇæ±í¡£
 
+<h3>1.3.1 InnoDB´æ´¢ÒýÇæ </h3>
+InnoDB´æ´¢ÒýÇæÖ§³ÖÊÂÎñ£¬ÆäÉè¼ÆÄ¿±êÖ÷ÒªÊÇÃæÏòÔÚÏßÊÂÎñ´¦Àí£¨OLTP£©µÄÓ¦ÓÃ¡£
+ÆäÌØµãÊÇÖ§³ÖÐÐ¼¶Ëø¡¢Ö§³ÖÍâ¼ü¡¢Ö§³ÖÀàËÆoracleµÄ·Ç¶Á¶¨Ëø£¨Ä¬ÈÏ¶ÁÈ¡²»»á²úÉúËø£©£¬MySQL´Ó5.5.8¿ªÊ¼ºó£¬Ä¬ÈÏ´æ´¢ÒýÇæÎªInnoDB¡£
+
+InnoDB´æ´¢ÒýÇæ½«Êý¾Ý·ÅÔÚÒ»¸öÂß¼­µÄ±í¿Õ¼äÖÐ£¬´ÓMySQL4.1Ö®ºóËü½«Ã¿¸ö±íµ¥¶À´æ·ÅÔÚÒ»¸öibdÎÄ¼þÖÐ¡£
+
+InnoDBÍ¨¹ý¶à°æ±¾²¢·¢¿ØÖÆ£¨MVCC£©À´»ñµÃ¸ß²¢·¢ÐÔ£¬²¢ÇÒÊµÏÖÁËSQL±ê×¼µÄ4¸ö¸ôÀë¼¶±ð£¬Ä¬ÈÏÎªREPEATABLE¼¶±ð¡£
+Í¬Ê±Ê¹ÓÃÁËnext-key lockingµÄ²ßÂÔÀ´±ÜÃâ»Ã¶Á£¬³ý´ËÖ®Íâ£¬InnoDB»¹Ìá¹©ÁË²åÈë»º´æ¡¢¶þ´ÎÐ´¡¢×ÔÊÊÓ¦¹þÏ£Ëø¡¢Ô¤¶ÁµÈ¸ßÐÔÄÜºÍ¸ß¿ÉÓÃµÄ¹¦ÄÜ¡£
+
+¶ÔÓÚ±íÖÐÊý¾ÝµÄ´æ´¢£¬InnoDB´æ´¢ÒýÇæ²ÉÓÃÁË¾Û¼¯µÄ·½Ê½¡¢Òò´ËÃ¿ÕÅ±íµÄ´æ´¢¶¼ÊÇ°´ÕÕÖ÷¼üµÄË³Ðò½øÐÐ´æ´¢µÄ¡£Èç¹ûÃ»ÓÐÖ÷¼ü£¬InnoDB»áÎªÃ¿Ò»ÐÐÉú³ÉÒ»¸ö6×Ö½ÚµÄROWID£¬²¢ÒÔ´Ë×÷ÎªÖ÷¼ü¡£
+
+<h3>1.3.2 MyISAM´æ´¢ÒýÇæ </h3>
+MYISAM ²»Ö§³ÖÊÂÎñ¡¢±íËøÉè¼Æ¡¢Ö§³ÖÈ«ÎÄË÷Òý£¬Ö÷ÒªÃæÏòÒ»Ð©OLAPÊý¾Ý¿âÓ¦ÓÃ¡£
+ÔÚMySQL5.5.8Ö®Ç°ÊÇMySQLµÄÄ¬ÈÏ´æ´¢ÒýÇæ
+
+MyISAM´æ´¢ÒýÇæÓÉMYDºÍMYI×é³É£¬MYDÓÃÀ´´æ·ÅÊý¾ÝÎÄ¼þ£¬MYIÓÃÀ´´æ·ÅË÷ÒýÎÄ¼þ¡£
+
+
+<h3>1.3.3 NDB´æ´¢ÒýÇæ </h3>
+
+NDBÊÇÒ»¸ö¼¯Èº´æ´¢ÒýÇæ£¬ÀàËÆÓÚoracleµÄRAC¼¯Èº¡£
+²»¹ýÓëOracleµÄRAC share everything¼Ü¹¹²»Í¬µÄÊÇ£¬ËüµÄ¼Ü¹¹ÊÇ share nothingµÄ¼¯Èº¼Ü¹¹£¬Òò´ËÄÜÌá¹©¸ü¸ßµÄ¿ÉÓÃÐÔ¡£
+NDBµÄÌØµãÊÇÊý¾ÝÈ«²¿¶¼·ÅÔÚÄÚ´æÖÐ£¨MySQL5.1Ö®ºó¿ÉÒÔ½«·ÇË÷ÒýÊý¾Ý·ÅÔÚ´ÅÅÌÉÏ£©Òò´ËÖ÷¼ü²éÕÒºÜ¿ì£¬²¢ÇÒ¿ÉÒÔÍ¨¹ýÌí¼Ó½ÚµãÏßÐÔµÄÌá¸ßÊý¾Ý¿âÐÔÄÜ£¬ÊÇ¸ß¿ÉÓÃ£¬¸ßÐÔÄÜµÄ¼¯ÈºÏµÍ³¡£
+
+NDB´æ´¢ÒýÇæµÄÊý¾Ý¿âÁ¬½ÓÊÇÔÚMySQL²ãÃæÍê³ÉµÄ£¬¶ø²»ÊÇÔÚ´æ´¢ÒýÇæ²ãÃæÍê³ÉµÄ£¬µ¼ÖÂ¸´ÔÓ²éÑ¯µÄÁ¬½Ó²Ù×÷ÐèÒª¾Þ´óµÄÍøÂç¿ªÏú£¬ËùÒÔ²éÑ¯ºÜÂý¡£
+
+<h3>1.3.4 Memory´æ´¢ÒýÇæ </h3>
+Memory´æ´¢ÒýÇæ½«±íÖÐµÄÊý¾Ý¶¼·ÅÔÚÄÚ´æÖÐ£¬Èç¹ûÊý¾Ý¿â±ÀÀ£»òÖØÆô£¬±íÖÐµÄÊý¾Ý¶¼»áÏûÊ§£¬ÊÊºÏ´æÁÙÊ±Êý¾ÝµÄÁÙÊ±±í¡£
+
+Memory´æ´¢ÒýÇæÄ¬ÈÏÊ¹ÓÃ¹þÏ£Ë÷Òý£¬¶ø²»ÊÇB+Ê÷Ë÷Òý¡£
+
+ËäÈ»MemoryºÜ¿ì£¬µ«ÊÇ»¹ÊÇÓÐÒ»Ð©È±ÏÝ£¬±ÈÈç£ºÖ»Ö§³Ö±íËø¡¢²¢·¢ÐÔÄÜ²î¡¢²¢ÇÒ²»Ö§³ÖTEXTºÍBLOBÀàÐÍ£¬¶øÇÒ´æ´¢varcharÊ±£¬»á°´charÈ¥´æ´¢£¬Òò´Ë»áÀË·ÑÄÚ´æ
+
+<h3>1.3.4 Archive´æ´¢ÒýÇæ </h3>
+Archive´æ´¢ÒýÇæÖ»Ö§³ÖinsertºÍselect²Ù×÷£¬´ÓMySQL5.1¿ªÊ¼Ö§³ÖË÷Òý¡£
+
+Archive´æ´¢ÒýÇæÊ¹ÓÃzlibËã·¨½«Êý¾ÝÐÐ½øÐÐÑ¹Ëõºó´æ´¢£¬Ñ¹Ëõ±È¿É´ï1:10£¬Òò´Ë ArchiveÊÊºÏ´æ´¢¹éµµÊý¾Ý£¬ÈçÈÕÖ¾ÐÅÏ¢¡£
+Archive´æ´¢ÒýÇæÊ¹ÓÃÐÐËøÀ´ÊµÏÖ¸ß²¢·¢µÄ²åÈë²Ù×÷£¬µ«ÊÇÆä±¾Éí²»ÊÇÊÂÎñ°²È«µÄ´æ´¢ÒýÇæ£¬Éè¼ÆÄ¿±êÖ÷ÒªÊÇ¸ßËÙ²åÈëºÍÑ¹Ëõ¹¦ÄÜ¡£
+
+<h1>2 InnoDB´æ´¢ÒýÇæ </h1>
+InnoDBÊÇÊÂÎñ°²È«µÄ´æ´¢ÒýÇæ£¬Éè¼ÆÉÏ²ÉÓÃÁËÀàËÆoracleµÄ¼Ü¹¹£¬InnoDB´æ´¢ÒýÇæÊÇOLTPÓ¦ÓÃÖÐºËÐÄ±íµÄÊ×Ñ¡´æ´¢ÒýÇæ¡£
+
+<h2>2.1 InnoDB´æ´¢ÒýÇæµÄ°æ±¾ </h2>
+
+| °æ±¾     | ÄÚÈÝ                  |
+|--------|---------------------|
+| ÀÏ°æ±¾£º   | Ö§³ÖACID¡¢ÐÐËø¡¢MVCC      |
+| 1.0.x: | Ôö¼Ó compressºÍdynamic |
+| 1.1.x: | Ôö¼Ó linux AIO¡¢¶à»Ø¹ö¶Î   |
+| 1.2.x: | Ôö¼Ó È«ÎÄË÷ÒýÖ§³Ö¡¢ÔÚÏßË÷ÒýÌí¼Ó    |
+
+
+<h2>2.1 InnoDBÌåÏµ½á¹¹ </h2>
 
 
 
