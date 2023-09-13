@@ -224,6 +224,7 @@ InnoDB 存储引擎的关键特性包括
 5. 刷新邻接页（Flush Neighbor Page）
 
 <h2>2.6.1 插入缓冲 </h2>
+<h3>1.Insert Buffer </h3>
 在InnoDB中，主键是行唯一的标识符，通常应用程序中记录的插入顺序是按照主键递增的顺序进行插入的，因此，插入聚集索引一般是顺序的，不需要磁盘的随机读取
 ```sql
  CREATE TABLE t(
@@ -243,9 +244,29 @@ InnoDB 存储引擎的关键特性包括
 
 在这种情况下，产生了一个非聚集的且不是唯一的索引，在进行插入操作时，数据页的存放还是按主键a进行顺序存放的，但是对于非聚集索引叶子结点的插入不再是顺序的了，这时候就需要离散地访问非聚集索引页，由于随机读取的存在而导致了插入操作性能下降。当然这并不是这个b字段上索引的错误，而是因为B+树的特性决定了非聚集索引插入的离散性。
 
+InnoDB存储引擎开创性的设计了Insert Buffer，对于非聚集索引的插入或更新操作，不是每一次直接插入到索引页中，而是先判断插入的非聚集索引页是否在缓冲池中，若在，则直接插入，则先放入到一个Insert Buffer 对象中，然后再以一定的频率和情况，将Insert Buffer 和辅助索引页子节点的merge操作，这时通常会将多个插入合并到一个操作中，大大提高了对于非聚集索引插入的性能。
 
+Insert Buffer 的使用需要满足以下两个条件：
+1. 索引是辅助索引
+2. 索引不是唯一的。
 
+当满足以上两个条件时，Innodb 存储引擎会使用Insert Buffer ，这样就能提高插入操作的性能了。
 
+<h3>2.Change Buffer </h3>
+Innodb从1.0.x版本中开始引入了Change Buffer，可将其看做 Insert Buffer 的升级。
+从这个版本开始，Innodb 存储引擎可以对DML（Insert、delete、update）操作都进行缓冲，它们分别是 Insert Buffer、 Delete Buffer、 Purge Buffer
+
+当然和之前一样，Change Buffer适用的对象依然是非唯一的辅助索引。
+对一条记录的update 操作可能分为两个过程：
+1. 将记录标记为删除
+2. 将记录真正删除
+
+因此Delete Buffer 对应Update 操作的第一个过程，即将记录标记为删除，Purge Buffer对应update操作的第二个过程，即将记录真正的删除。同时，Innodb存储引擎提供了参数innodb_change_buffering，用来开启各种Buffer的选项。该参数可选的值为：Inserts、deletes、purges、changes、all、none。
+changes表示启用inserts和deletes，all表示启用所有，none表示都不启用，该参数默认值为all。
+
+innodb_change_buffer_max_size值默认为25，表示最多1/4的的缓冲池空间，而需要注意的是，该值最大为50；
+<h3>3.Insert Buffer的内部实现 </h3>
+Insert Buffer的内部是一颗B+树，
 
 
 
