@@ -266,19 +266,26 @@ changes表示启用inserts和deletes，all表示启用所有，none表示都不启用，该参数默认值
 
 innodb_change_buffer_max_size值默认为25，表示最多1/4的的缓冲池空间，而需要注意的是，该值最大为50；
 <h3>3.Insert Buffer的内部实现 </h3>
-Insert Buffer的内部是一颗B+树，
+Insert Buffer的内部是一颗B+树，在MySQL 4.1之前的版本中，每张表有一个Insert Buffer的B+树，在4.1之后的版本中，全局只存在一颗B+树，负责对所有表的辅助索引进行Insert Buffer。
+
+这颗B+树存放在共享表空间中(默认存放在ibdata1中)，因此，试图通过独立表空间ibd文件恢复表中数据时，往往会导致Check Table失败。这是因为表的辅助索引中的数据还在Insert Buffer中，也就是共享表空间中，所以通过ibd文件进行恢复后，还需要进行Repair Table操作来重建表上的所有辅助索引。
 
 
+Insert Buffer 是一颗B+树，因此它也是由叶节点和非叶节点组成。非叶节点存放的是查询的 search key
 
+| space | marker | offset |
+|-------|--------|--------|
 
+search key 一共占用9个字节，其中 space表示待插入记录所在表的表空间id，在Innodb中，每个表都有一个唯一的space id，可以通过space id 查询是哪张表，space占用4个字节。
+marker占用1个字节，它是用来兼容老版本的Insert Buffer。offset表示页所在的偏移量，占用4个字节。
 
+当一个辅助索引要插入到页时，如果这个页不在缓冲池中，那么Innodb首先根据上面的规则构建一个Search key 接下来查询 Insert Buffer 这颗B+树，然后再讲这条记录插入到Insert Buffer B+树的叶子节点中 。
 
+对于插入到Insert Buffer B+树叶子节点的记录，并不是直接将待插入的记录插入，而是需要根据如下的规则进行构造
 
+| space | marker | offset | metadata | | | |
+|-------|--------|--------|----------|-|-|-|
 
-
-
-
-
-
+增加第4个字段 metadata 字段，这个字段共占用4个字节，2个字节记录排序每个记录进入Insert Buffer 的顺序，
 
 
