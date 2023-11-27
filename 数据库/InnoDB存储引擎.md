@@ -543,4 +543,91 @@ MySQL数据库允许对null值做分区，但是处理的方法与其他数据库完全不同，MySQL数据库的
 hash和key分区对于null的处理方式和range分区、list分区不一样，任何分区函数都会将含有null值的记录返回为0
 
 <h3>4.8.5 分区和性能</h3>
+数据库的应用分为两类：一类是OLTP（在线事务处理），如blog、电子商务、网络游戏等。
+
+另一类是OLAP（在线分析处理），如数据仓库，数据集市等。在一个实际应用的环境中，可能既有OLTP的应用，也有OLAP的应用。
+
+在网络游戏中，玩家操作的游戏数据库应用就是OLTP的，但是游戏厂商可能需要对游戏产生的日志进行分析，而这却是OLAP应用
+
+对于OLAP的应用，分区的确是可以很好的提高查询的性能，因为OLAP的应用大多数查询需要频繁的扫描一张很大的表，假如有一张一个亿数据的表，其中有一个时间戳属性，用户的查询需要从这张表中获取一年的数据，如果按时间进行分区，则只需要扫描对应的分区即可。
+
+然而对于OLTP的应用，分区应该非常小心，在这种应用下，通常不可能会获取一张大表10%的数据，大部分都是通过索引，返回几条数据即可。
+
+<h3>4.8.6 在表和分区间交换数据</h3>
+
+MySQL从5.6开始支持ALTER TABLE ... EXCHANGE PARTITION语法，该语句允许分区或子分区中的数据域另一个非分区的表中的数据进行交换。
+
+如果非分区表中的数据为空，那么相当于将分区中的数据移动到非分区表中。若分区表中的数据为空，则相当于将外部表中的数据导入到分区中。
+
+要使用ALTER TABLE ... EXCHANGE PARTITION 语句，必须满足下面的条件。
+
+1. 要交换的表徐鹤分区表有相同的表机构，但是表不能含有分区
+2. 在非分区表中的数据必须在交换的分区定义内
+3. 被交换的表中不能含有外键，或者其他的表含有对该表的外键引用
+4. 用户除了ALTER 、INSERT 和CREATE 权限外，还需要有DROP的权限
+5. 使用该语句时，不会出发交换表和被交换表上的触发器
+6. AUTO_INCREMENT 列将会被重置
+
+<h1>5 索引与算法</h1>
+
+索引时应用程序设计和开发的一个重要方面，若索引太多，性能可能会收到影响，索引太少，又会对查询性能性能产生影响。
+
+<h2>5.1 Innodb 存储引擎索引概述</h2>
+
+Innodb存储引擎支持以下几种常见索引
+
+1. B+树索引
+2. 全文索引
+3. 哈希索引
+
+b+树索引就是传统意义上的索引，这是目前关系型数据库最常见和最有效的索引，B+树索引的构造类似于二叉树，根据键值快速找到数据
+
+Innodb的哈希索引是自适应的，Innodb会根据表的使用情况自动为表生成哈希索引
+
+<h2>5.2 数据结构与算法</h2>
+
+<h3>5.2.1 二分查找法</h2>
+
+二分查找法的java实现，核心就是比较完之后换下标
+
+```java
+ public static int binSearch(int[] srcArry, int key) {
+        int start = 0;
+        int end = srcArry.length - 1;
+        int mid;
+        while (start <= end) {
+            mid = (end - start) / 2 + start;
+            if (key < srcArry[mid]) {
+                end = mid - 1;
+            } else if (key > srcArry[mid]) {
+                start = mid + 1;
+            } else {
+                return mid;
+            }
+        }
+        return -1;
+    }
+
+    public static int binSearch2(int[] srcArry, int start, int end, int key) {
+        int mid = (end - start) / 2 + start;
+        if (srcArry[mid] == key) {
+            return mid;
+        }
+        if (start >= end) {
+            return -1;
+        } else if (key > srcArry[mid]) {
+            return binSearch2(srcArry, mid + 1, end, key);
+        } else if (key < srcArry[mid]) {
+            return binSearch2(srcArry, start, mid - 1, key);
+        }
+        return -1;
+    }
+```
+
+
+<h3>5.2.2 二叉查找树和平衡二叉树 </h3>
+
+<h2>5.3 B+树 </h2>
+
+
 
