@@ -808,4 +808,127 @@ documentIdÎªt±íµÄid£¬text±íÊ¾ÎÄµµÄÚÈÝ£¬ÓÃ»§ÐèÒª¶Ô´æ´¢µÄÕâÐ©ÎÄµµÄÚÈÝ½øÐÐÈ«ÎÄ¼ìË÷¡
 
 ![fullInvertedIndex.png](InnoDB´æ´¢ÒýÇæ¸½Â¼/fullInvertedIndex.png)
 
-full inverted index »¹´æ´¢ÁËµ¥´ÊËùÔÚµÄÎ»ÖÃÐÅÏ¢£¬Èç codeÕâ¸öµ¥´Ê³öÏÖÔÚ£¨1:6£©¼´ÎÄµµ1µÄµÚ6¸öµ¥´ÊÎªcode¡£Ïà±ÈÖ®ÏÂ£¬
+full inverted index »¹´æ´¢ÁËµ¥´ÊËùÔÚµÄÎ»ÖÃÐÅÏ¢£¬Èç codeÕâ¸öµ¥´Ê³öÏÖÔÚ£¨1:6£©¼´ÎÄµµ1µÄµÚ6¸öµ¥´ÊÎªcode¡£Ïà±ÈÖ®ÏÂ£¬full inverted index »áÕ¼ÓÃ¸ü¶à¿Õ¼ä£¬µ«ÊÇÄÜ¸üºÃµÄ¶¨Î»Êý¾Ý£¬²¢À©³äÒ»Ð©ÆäËûµÄËÑË÷ÌØÐÔ¡£
+
+<h3> 5.8.3 Innodb È«ÎÄ¼ìË÷</h3>
+
+Innodb´Ó1.2.x¿ªÊ¼Ö§³ÖÈ«ÎÄË÷Òý£¬Æä²ÉÓÃµÄÊÇ full inverted indexµÄ·½Ê½£¬ÔÚInnodbÖÐ£¬½«£¨document£¬position£©ÊÓÎªÒ»¸öilist£¬Òò´ËÔÚÈ«ÎÄ¼ìË÷µÄ±íÖÐ£¬ÓÖÁ½¸öÁÐ£¬Ò»¸öÊÇword×Ö¶Î£¬ÁíÒ»¸öÊÇilist×Ö¶Î£¬²¢ÇÒÔÚword×Ö¶ÎÉÏÓÐÉèÓÐË÷Òý£¬´ËÍâÓÉÓÚInnodbÔÚilist×Ö¶ÎÖÐ´æ·ÅÁËpositionÐÅÏ¢£¬¹Ê¿ÉÒÔ½øÐÐproximity Search¡¢
+
+µ¹ÅÅË÷ÒýÐèÒª½«word´æ·Åµ½Ò»ÕÅ±íÖÐ£¬Õâ¸ö±í³ÆÎªAuxiliary table£¨¸¨Öú±í£©£¬ÔÚInnodbÖÐ£¬ÎªÁËÌá¸ßÈ«ÎÄ¼ìË÷µÄ²¢ÐÐÐÔÄÜ£¬¹²ÓÐ6ÕÅAuxiliary Table£¬Ä¿Ç°Ã¿ÕÅ±í¸ù¾ÝwordµÄlatin±àÂë£¨ISO-8859-1£©½øÐÐ·ÖÇø¡£
+
+Auxiliary Table ÊÇ³Ö¾ÃµÄ±í£¬´æ·ÅÓÚ´ÅÅÌÉÏ£¬È»¶øÔÚInnodbµÄÈ«ÎÄ¼ìË÷ÖÐ£¬»¹ÓÐÁíÍâÒ»¸öÖØÒªµÄ¸ÅÄî FTS index cache£¨È«ÎÄ¼ìË÷Ë÷Òý»º´æ£©£¬ÆäÓÃÀ´Ìá¸ßÈ«ÎÄ¼ìË÷µÄÐÔÄÜ¡£
+
+FTS index cache ÊÇÒ»¸öºìºÚÊ÷½á¹¹£¬Æä¸ù¾Ý£¨word£¬ilist£©½øÐÐÅÅÐò£¬ÕâÒâÎ¶×Å²åÈëµÄÊý¾ÝÒÑ¾­¸üÐÂÁË¶ÔÓ¦µÄ±í£¬µ«ÊÇ¶ÔÈ«ÎÄË÷ÒýµÄ¸üÐÂ¿ÉÄÜÔÚ·Ö´Ê²Ù×÷ºó»¹ÔÚ FTS index cacheÖÐ£¬Auxiliary Table ¿ÉÄÜ»¹Ã»ÓÐ¸üÐÂ¡£Innodb »áÅúÁ¿¶ÔAuxiliary Table ½øÐÐ¸üÐÂ£¬¶ø²»ÊÇÃ¿´Î²åÈëºó¸üÐÂÒ»´ÎAuxiliary Table¡£
+
+µ±È«ÎÄ¼ìË÷½øÐÐ²éÑ¯Ê±£¬Auxiliary Table Ê×ÏÈ»á½«  FTS index cache ÖÐ¶ÔÓ¦µÄword×Ö¶ÎºÏ²¢µ½ Auxiliary Table ÖÐ£¬È»ºóÔÙ½øÐÐ²éÑ¯¡£
+
+ÕâÖÖmerge²Ù×÷·Ç³£ÀàËÆÖ®Ç°½éÉÜµÄ insert BufferµÄ¹¦ÄÜ£¬²»Í¬µÄÊÇ Insert BufferÊÇÒ»¸ö³Ö¾ÃµÄ¶ÔÏó£¬²¢ÇÒÊÇÒ»¸öB+Ê÷µÄ½á¹¹£¬
+
+È»¶ø FTS index cache µÄ×÷ÓÃÓÖºÍ Insert Buffer ÊÇÀàËÆµÄ£¬ËüÌá¸ßÁË InnodbµÄÐÔÄÜ£¬²¢ÇÒÓÉÓÚÆä¸ù¾ÝºìºÚÊ÷ÅÅÐòºó½øÐÐÅúÁ¿²åÈë£¬Æä²úÉúµÄ Auxiliary TableÏà¶Ô½ÏÐ¡¡£
+
+Innodb ÔÊÐíÓÃÓÚ²é¿´ÖÃ¶¥µ¹ÅÅË÷ÒýµÄAuxiliary Table ÖÐ·Ö´ÊµÄÐÅÏ¢£¬¿ÉÒÔÍ¨¹ýÉèÖÃ²ÎÊý innodb_ft_aux_table À´¹Û²ìµ¹ÅÅË÷ÒýµÄ Auxiliary Table¡£
+
+<h3> 5.8.4 È«ÎÄ¼ìË÷</h3>
+
+MySQLÖ§³ÖÈ«ÎÄ¼ìË÷£¬´´½¨¼´²éÑ¯Óï·¨Îª
+
+´´½¨
+
+ALTER TABLE t_esp_news  ADD FULLTEXT INDEX title_index(title) WITH PARSER ngram;
+
+²éÑ¯
+
+SELECT  *  from  t_esp_news  where  match  (title)  against  ('ÉÏº£¸´ÉîÀ¶Èí¼þ¹É·ÝÓÐÏÞ¹«Ë¾' IN BOOLEAN MODE);
+
+<h1>6 Ëø</h1>
+
+<h2>6.1 Ëø¸ÅÊö</h2>
+
+ËøÊÇÊý¾Ý¿âÏµÍ³Çø±ðÓÚÎÄ¼þÏµÍ³µÄÒ»¸ö¹Ø¼üÌØÐÔ£¬Ëø»úÖÆÓÃÓÚ¹ÜÀí¶Ô¹²Ïí×ÊÔ´µÄ²¢·¢·ÃÎÊ¡£
+
+ËäÈ»innodbÔÚÐÐ¼¶±ðÉÏ¶ÔÊý¾ÝÉÏËø£¬µ«ÊÇinnodbÒ²»áÔÚÊý¾Ý¿âÄÚ²¿ÆäËû¶à¸öµØ·½Ê¹ÓÃËø£¬´Ó¶øÔÊÐí¶Ô¶àÖÖ²»Í¬×ÊÔ´Ìá¹©²¢·¢·ÃÎÊ¡£
+
+ÀýÈç£º²Ù×÷»º³å³ØÖÐµÄLRUÁÐ±í£¬É¾³ý¡¢Ìí¼Ó¡¢ÒÆ¶¯LRUÁÐ±í»ã×ÜµÄÔªËØ£¬ÎªÁË±£Ö¤Ò»ÖÂÐÔ£¬±ØÐëÓÐËøµÄ½éÈë£¬Êý¾Ý¿âÊ¹ÓÃËøÊÇÎªÁËÖ§³Ö¶Ô¹²Ïí×ÊÔ´½øÐÐ²¢·¢·ÃÎÊ£¬Ìá¹©Êý¾ÝµÄÍêÕûÐÔºÍÒ»ÖÂÐÔ¡£
+
+innodbËøµÄÊµÏÖºÍoracle·Ç³£ÀàËÆ£¬Ìá¹©Ò»ÖÂÐÔµÄ·ÇËø¶¨¶Á£¬ÐÐ¼¶ËøÖ§³Ö¡£ÐÐ¼¶ËøÃ»ÓÐÏà¹Ø¶îÍâµÄ¿ªÏú£¬²¢¿ÉÒÔÍ¬Ê±µÃµ½²¢·¢ÐÔºÍÒ»ÖÂÐÔ¡£
+
+<h2>6.2 lockÓëlatch</h2>
+
+latchÒ»°ã³ÆÎªãÅËø(ÇáÁ¿¼¶Ëø)£¬ÒòÎªÆäÒªÇóËø¶¨µÄÊ±¼ä±ØÐëÎª³¤¶Ì£¬Èô³ÖÐøµÄÊ±¼ä³¤£¬ÔòÓ¦ÓÃµÄÐÔÄÜ¾Í»á·Ç³£²î£¬ÔÚinnodbÖÐ£¬latchÓÖ¿ÉÒÔ·ÖÎªmutex£¨»¥³âËø£©ºÍrwlock£¨¶ÁÐ´Ëø£©£¬ÆäÄ¿µÄÓÃÀ´±£Ö¤²¢·¢Ïß³Ì²Ù×÷ÁÙ½ç×ÊÔ´µÄÕýÈ·ÐÔ£¬²¢ÇÒÍ¨³£Ã»ÓÐËÀËø¼ì²âµÄ»úÖÆ¡£
+
+lockµÄ¶ÔÏóÊÇÊÂÎñ£¬ÓÃÀ´Ëø¶¨µÄÊÇÊý¾Ý¿âÖÐµÄ¶ÔÏó£¬Èç±í¡¢Ò³¡¢ÐÐ¡£²¢ÇÒÒ»°ãlock¶ÔÏó½öÔÚÊÂÎñcommit»òrollbackºó½øÐÐÊÍ·Å£¬´ËÍâ£¬lockÊÇÓÐËÀËø»úÖÆµÄ¡£
+![Ëø±È½Ï.png](InnoDB´æ´¢ÒýÇæ¸½Â¼/Ëø±È½Ï.png)
+
+¶ÔÓÚinnodbÖÐµÄlatch£¬¿ÉÒÔÍ¨¹ýshow engine innodb mutexÀ´½øÐÐ²é¿´
+
+typeÁÐ ÏÔÊ¾µÄ×ÜÊÇinnodb£¬nameÁÐÏÔÊ¾µÄÊÇlatchµÄÐÅÏ¢ÒÔ¼°ËùÔÚÔ¶ÂðµÄÎ»ÖÃ£¬status±È½Ï¸´ÔÓ£¬³ýÁËos_waitsÍâ£¬»¹»áÏÔÊ¾count¡¢spin_waits¡¢spin_rounds¡¢os_yields¡¢os_wait_timesµÈÐÅÏ¢
+![status½á¹ûËµÃ÷.png](InnoDB´æ´¢ÒýÇæ¸½Â¼/statusËµÃ÷.png)
+
+<h2>6.3 innodb´æ´¢ÒýÇæÖÐµÄËø</h2>
+
+<h3>6.3.1 ËøµÄÀàÐÍ</h3>
+
+innodbÊµÏÖÁËÁ½ÖÖ±ê×¼µÄÐÐ¼¶Ëø
+
+1. ¹²ÏíËø£¨S Lock£©£¬ÔÊÐíÊÂÎñ¶ÁÒ»ÐÐÊý¾Ý¡£
+2. ÅÅËûËø£¨X Lock£©£¬ÔÊÐíÊÂÎñÉ¾³ý»ò¸üÐÂÒ»ÐÐÊý¾Ý¡£
+
+Èç¹ûÒ»¸öÊÂÎñT1ÒÑ¾­»ñµÃÁËÐÐrµÄ¹²ÏíËø£¬ÄÇÃ´ÁíÍâµÄÊÂÎñT2¿ÉÒÔÁ¢¼´»ñµÃÐÐrµÄ¹²ÏíËø£¬ÒòÎª¶ÁÈ¡²¢Ã»ÓÐ¸Ä±äÐÐrµÄÊý¾Ý£¬³ÆÕâÖÖÇé¿öÎªËø¼æÈÝ¡£
+
+µ«ÊÇÈôÓÐÆäËûÊÂÎñT3Ïë»ñµÃÐÐrµÄÅÅËüËø£¬±ØÐëµÈ´ýT1¡¢T2ÊÍ·ÅÐÐrÉÏµÄ¹²ÏíËø£¬ÕâÖÖÇé¿ö³ÆÎªËø²»¼æÈÝ¡£
+![ËøµÄ¼æÈÝÐÔ.png](InnoDB´æ´¢ÒýÇæ¸½Â¼/ËøµÄ¼æÈÝÐÔ.png)
+
+Í¼ÖÐ¿ÉÒÔ¿´µ½XËøºÍÈÎºÎËø¶¼²»¼æÈÝ£¬¶øSËø½öºÍSËø¼æÈÝ£¬SºÍX¶¼ÊÇÐÐ¼¶Ëø£¬¼æÈÝÊÇÖ¸¶ÔÍ¬Ò»ÐÐ¼ÇÂ¼ËøµÄ¼æÈÝÐÔÇé¿ö¡£
+
+´ËÍâ£¬InnodbÖ§³Ö¶àÁ£¶ÈµÄËø¶¨£¬ÕâÖÖËø¶¨ÔÊÐíÊÂÎñÔÚÐÐ¼¶ÉÏµÄËøºÍ±í¼¶ÉÏµÄËøÍ¬Ê±´æÔÚ£¬ÎªÁËÖ§³ÖÔÚ²»Í¬Á£¶ÈÉÏ½øÐÐ¼ÓËø²Ù×÷£¬Innodb´æ´¢ÒýÇæÖ§³ÖÒ½ÁÆ¶îÍâµÄËø·½Ê½£¬³ÆÖ®ÎªÒâÏòËø¡£
+
+ÒâÏòËøÊÇÖ¸½«Ëø¶¨µÄ¶ÔÏó·ÖÎª¶à¸ö²ã´Î£¬ÒâÏòËøÒâÎ¶×ÅÊÂÎñÏ£ÍûÔÚ¸üÏ¸Á¦¶ÈÉÏ½øÐÐ¼ÓËø¡£
+
+Èô½«ÉÏËøµÄ¶ÔÏó¿´³ÉÒ»¿ÃÊ÷£¬ÄÇÃ´¶Ô×îÏÂ²ãµÄ¶ÔÏóÉÏËø£¬ÄÇÃ´Ê×ÏÈÐèÒª¶Ô´ÖÁ£¶È¶ÔÏóÉÏËø£¬ÈçÍ¼ËùÊ¾£¬Èç¹ûÐèÒª¶ÔÒ³ÉÏµÄ¼ÇÂ¼r½øÐÐÉÏXËø£¬ÄÇÃ´·Ö±ðÐèÒª¶ÔÊý¾Ý¿âA¡¢±í¡¢Ò³ÉÏÒâÏòËø£¬×îºó¶Ô¼ÇÂ¼ÉÏXËø¡£
+
+ÈôÆäÖÐÈÎºÎÒ»¸ö²¿·Öµ¼ÖÂµÈ´ý£¬ÄÇÃ´¸Ä²Ù×÷ÐèÒªµÈ´ý´ÖÁ£¶ÈËøµÄÍê³É£¬¾ÙÀýÀ´Ëµ£¬ÔÚ¶Ô¼ÇÂ¼rÉÏXËøÖ®Ç°£¬ÒÑ¾­ÓÐÊÂÎñ¶Ô±í1½øÐÐÁËS±íËø£¬ÄÇÃ´±í1ÉÏÒÑ¾­´æÔÚSËø£¬Ö®ºóÊÂÎñÐèÒª¶Ô¼ÇÂ¼rÔÚ±íÉÏ¼ÓIX£¬ÓÉÓÚ²»¼æÈÝ£¬ËùÒÔ¸ÃÊÂÎñÐèÒªµÈ´ý±íËø²Ù×÷µÄÍê³É¡£
+![ËøµÄ²ã´Î½á¹¹.png](InnoDB´æ´¢ÒýÇæ¸½Â¼/ËøµÄ²ã´Î½á¹¹.png)
+
+InnodbÖ§³ÖÒâÏòËøÉè¼Æ±È½Ï¼òÁ·£¬ÆäÒâÏòËø¼´Îª±í¼¶±ðµÄËø£¬Éè¼ÆµÄÄ¿µÄÖ÷ÒªÊÇÎªÁËÔÚÒ»¸öÊÂÎñÖÐ½ÒÊ¾ÏÂÒ»ÐÐ½«±»ÇëÇóµÄËøÀàÐÍ£¬ÆäÖ§³ÖÁ½ÖÖÒâÏòËø¡£
+
+1. ÒâÏò¹²ÏíËø£¨IS Lock£©£¬ÊÂÎñÏëÒª»ñµÃÒ»ÕÅ±íÖÐÄ³¼¸ÐÐµÄ¹²ÏíËø¡£
+2. ÒâÏòÅÅËûËø£¨IX Lock£©£¬ÊÂÎñÏëÒª»ñµÃÒ»ÕÅ±íÖÐÄ³¼¸ÐÐµÄÅÅËûËø¡£
+
+ÓÉÓÚInnodbÖ§³ÖµÄÊÇÐÐ¼¶±ðµÄËø£¬Òò´ËÒâÏòËøÆäÊµ²»»á×èÈû³ýÈ«±íÉ¨ÒÔÍâµÄÈÎºÎÇëÇó£¬¹Ê±í¼¶ÒâÏòËøÓëÐÐ¼¶ËøµÄ¼æÈÝÐÔÈçÍ¼ËùÊ¾¡£
+![±í¼¶ËøµÄ¼æÈÝÐÔ.png](InnoDB´æ´¢ÒýÇæ¸½Â¼/±í¼¶ËøµÄ¼æÈÝÐÔ.png)
+
+ÔÚInnodb 1.0Ö®Ç°ÓÃ»§Ö»ÄÜÍ¨¹ýÃüÁîÀ´²é¿´µ±Ç°Êý¾Ý¿âÖÐËøµÄÇëÇó£¬È»ºóÔÙÅÐ¶ÏÊÂÎñËøµÄÇé¿ö£¬Innodb1.0Ö®ºó ¿ÉÒÔ²éÑ¯INNODB_TRX¡¢INNODB_LOCKS¡¢INNODB_LOCK_WAITS ÕâÈýÕÅ±í£¬ÓÃ»§¿ÉÒÔ¸ü¼òµ¥µÄ¼à¿Øµ¥Ç©ÊÂÎñ²¢·ÖÎö¿ÉÄÜ´æÔÚµÄËøÎÊÌâ¡£
+![RTX±í½á¹¹ËµÃ÷.png](InnoDB´æ´¢ÒýÇæ¸½Â¼/RTX±í½á¹¹ËµÃ÷.png)
+
+![Lock±í½á¹¹ËµÃ÷.png](InnoDB´æ´¢ÒýÇæ¸½Â¼/LOCK±í½á¹¹ËµÃ÷.png)
+
+![LOCK_WAITS±í½á¹¹ËµÃ÷.png](InnoDB´æ´¢ÒýÇæ¸½Â¼/LOCK_WAITS±í½á¹¹ËµÃ÷.png)
+
+²éÑ¯LOCK_WAITS±í¿ÉÒÔ¿´µ½ÄÄ¸öÊÂÎñ×èÈûÁËÁíÒ»¸öÊÂÎñ¡£ÕâÀïÖ»¸ø³öÁËÊÂÎñºÍËøµÄid£¬Èç¹ûÐèÒª£¬ÓÃ»§¿ÉÒÔÍ¨¹ýÁªºÏ²éÑ¯£¬µÃµ½¸üÎªÖ±¹ÛµÄÏêÏ¸ÐÅÏ¢¡£
+
+```sql
+select
+    r.trx_id,
+    r.trx_mysql_thread_id,
+    r.trx_query,
+    b.trx_id,
+    b.trx_mysql_thread_id,
+    b.trx_query
+from information_schema.innodb_lock_waits w
+inner join information_schema.INNODB_TRX b on b.trx_id = w.blocking_trx_id
+inner join information_schema.INNODB_TRX r on trx_id = w.requesting_trx_id
+```
+
+<h3>6.3.2 Ò»ÖÂÐÔ·Ç¶Á¶¨Ëø</h3>
+
+Ò»ÖÂÐÔ·Ç¶Á¶¨ËøÊÇÖ¸InnodbÍ¨¹ýÐÐµÄ¶à°æ±¾¿ØÖÆµÄ·½Ê½À´¶ÁÈ¡µ±Ç°Ö´ÐÐÊ±¼äÊý¾Ý¿âÖÐÐÐµÄÊý¾Ý¡£
+
+Èç¹ûÕýÔÚ¶ÁÈ¡µÄÐÐÕýÔÚÖ´ÐÐupdate»òÕßdelete²Ù×÷£¬ÕâÊ±¶ÁÈ¡²Ù×÷²»»áÒò´ËÈ¥µÈ´ýÐÐÉÏËøµÄÊÍ·Å¡£
+
+Ïà·´µÄ£¬Innodb»áÈ¥¶ÁÐÐµÄÒ»¸ö¿ìÕÕÊý¾Ý£¬Í¼ÖÐÕ¹Ê¾ÁËInnodbÒ»ÖÂÐÔ·Ç¶Á¶¨Ëø£¬Ö®ËùÒÔ³ÆÖ®Îª·ÇËø¶¨¶Á£¬ÊÇÒòÎª²»ÐèÒªµÈ´ý·ÃÎÊµÄÐÐÉÏXËøµÄÊÍ·Å¡£
+
+¿ìÕÕÊý¾ÝÊÇÖ»¸ÃÐÐµÄÖ®Ç°°æ±¾µÄÊý¾Ý£¬¸ÇÊÀÏÉÊÇÍ¨¹ýundo¶ÎÀ´Íê³É£¬¶øundoÓÃÀ´ÔÚÊÂÎñÖÐ»Ø¹öÊý¾Ý£¬Òò´Ë¿ìÕÕÊý¾Ý±¾ÉíÊÇÃ»ÓÐ¶îÍâµÄ¿ªÏú£¬´ËÍâ£¬¶ÁÈ¡¿ìÕÕÊý¾ÝÊÇ²»ÐèÒªÉÏËøµÄ£¬ÒòÎªÃ»ÓÐÊÂÎñÐèÒª¶ÔÁÓÊÆµÄÊý¾Ý½øÐÐÐÞ¸Ä²Ù×÷¡£
+![·ÇËø¶¨Ò»ÖÂÐÔ¶Á.png](InnoDB´æ´¢ÒýÇæ¸½Â¼/·ÇËø¶¨Ò»ÖÂÐÔ¶Á.png)
+
+
+
