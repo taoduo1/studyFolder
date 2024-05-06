@@ -1112,3 +1112,29 @@ InnodbµÄÊÂÎñÍêÈ«·ûºÏACIDµÄÌØÐÔ£¬¼´ Ô­×ÓÐÔ(atomicity)¡¢Ò»ÖÂÐÔ(consistency)¡¢¸ôÀëÐ
 **Ç¶Ì×ÊÂÎñ**ÊÇÒ»¸ö²ã´Î½á¹¹¿ò¼Ü£¬ÓÉÒ»¸ö¶¥²ãÊÂÎñ¿ØÖÆ×Å¸÷¸ö²ã´ÎµÄÊÂÎñ£¬¶¥²ãÊÂÎñÖ®ÏÂÇ¶Ì×µÄÊÂÎñ±»³ÆÎª×ÓÊÂÎñ£¬Æä¿ØÖÆ×ÅÃ¿Ò»¸ö¾Ö²¿µÄ±ä»»¡£
 
 
+**·Ö²¼Ê½ÊÂÎñ** Í¨³£ÊÇÔÚÒ»¸ö·Ö²¼Ê½»·¾³ÏÂÔËÐÐµÄ±âÆ½ÊÂÎñ£¬Òò´ËÐèÒª¸ù¾ÝÊý¾ÝËùÔÚÎ»ÖÃ·ÃÎÊÍøÂçµÄ²»Í¬½Úµã£¬¶ÔÓÚ·Ö²¼Ê½ÊÂÎñ£¬ÆäÍ¬ÑùÐèÒªÂú×ãACIDÌØÐÔ¡£
+
+<h2>7.2 ÊÂÎñµÄÊµÏÖ</h2>
+
+ÊÂÎñ¸ôÀëÐÔÓÉµÚ6ÕÂ½²ÊöµÄËøÀ´ÊµÏÖ£¬Ô­×ÓÐÔ¡¢Ò»ÖÂÐÔ¡¢³Ö¾ÃÐÔÍ¨¹ýÊý¾Ý¿âµÄredo logºÍundo logÀ´Íê³É¡£redo log³ÆÎªÖØ×öÈÕÖ¾£¬ÓÃÀ´±£Ö¤ÊÂÎñµÄÔ­×ÓÐÔºÍ³Ö¾ÃÐÔ£¬undo logÀ´±£Ö¤ÊÂÎñµÄÒ»ÖÂÐÔ¡£
+
+redoÊÇÎïÀíÈÕÖ¾£¬¼ÇÂ¼µÄÊÇÒ³µÄÎïÀíÐÞ¸Ä²Ù×÷¡£undoÊÇÂß¼­ÈÕÖ¾£¬¸ù¾ÝÃ¿ÐÐ¼ÇÂ¼½øÐÐ¼ÇÂ¼¡£
+
+<h3>7.2.1 redo</h3>
+
+Ò». »ù±¾¸ÅÄî
+ÖØ×öÈÕÖ¾ÓÃÀ´ÊµÏÖÊÂÎñµÄ³Ö¾ÃÐÔ£¬¼´ÊÂÎñACIDÖÐµÄD£¬ËüÊÇÓÉÁ½²¿·Ö×é³É£¬Ò»ÊÇÄÚ´æÖÐµÄÖØ×öÈÕÖ¾»º³å£¨redo kig buffer£©£¬¶þÊÇÖØ×öÈÕÖ¾ÎÄ¼þ£¨redo log file£©
+
+1. InnoDB Í¨¹ýForce log at commit»úÖÆÊµÏÖÊÂÎñµÄ³Ö¾ÃÐÔ¡£¼´µ±ÊÂÎñÌá½»Ê±£¬±ØÐëÏÈ½«¸ÃÊÂÎñµÄËùÓÐÈÕÖ¾Ð´Èëµ½ÖØ×öÈÕÖ¾ÎÄ¼þ¾ªÐÑ³Ö¾Ã»¯£¬´ýÊÂÎñÖÐµÄcommit²Ù×÷Íê³É²ÅËãÍê³É¡£ÕâÀïµÄÈÕÖ¾ÊÇÖ¸ÖØ×öÈÕÖ¾£¬ÔÚInnoDBÖÐ£¬ÓÉÁ½²¿·Ö×é³É£¬¼´redo logºÍundo log¡£ redo ÓÃÀ´±£Ö¤ÊÂÎñµÄ³Ö¾ÃÐÔ£¬undo logÀ´°ïÖúÊÂÎñ»Ø¹ö¼´MVCC²Ù×÷¡£redo log»ù±¾ÉÏ¶¼ÊÇË³ÐòÐ´µÄ£¬ÔÚÊý¾Ý¿âÔËÐÐÊ±²»ÐèÒª¶Ñredo logµÄÎÄ¼þ½øÐÐ¶ÁÈ¡²Ù×÷£¬¶øundo logÊÇÐèÒª½øÐÐËæ»ú¶ÁÐ´µÄ¡£
+
+   ÎªÁËÈ·±£Ã¿´ÎÈÕÖ¾¶¼Ð´ÈëÖØ×öÈÕÖ¾ÎÄ¼þ£¬ÔÚÃ¿´Î½«ÖØ×öÈÕÖ¾»º³åÐ´ÈëÖØ×öÈÕÖ¾ÎÄ¼þºó£¬InnoDB¶¼ÐèÒªµ÷ÓÃÒ»´Îfsync²Ù×÷£¬ÓÉÓÚÖØ×öÈÕÖ¾ÎÄ¼þ´ò¿ª²¢Ã»ÓÐO_DIRECTÑ¡Ïî£¬Òò´ËÖØ×öÈÕÖ¾»º³åÏÈÐ´ÈëÎÄ¼þÏµÍ³»º´æ£¬ÎªÁËÈ·±£ÖØ×öÈÕÖ¾Ð´Èë´ÅÅÌ£¬±ØÐë½øÐÐÒ»´Îfsync²Ù×÷¡£
+2. InnoDBÔÊÐíÓÃ»§ÊÖ¹¤ÉèÖÃ·Ç³Ö¾ÃÐÔµÄÇé¿ö·¢Éú£¬¼´µ±ÊÂÎñÌá½»Ê±£¬ÈÕÖ¾²»Ð´ÈëÖØ×öÈÕÖ¾ÎÄ¼þ£¬¶øÊÇµÈ´ýÒ»¸öÊ±¼äÖÜÆÚºóÔÙÖ´ÐÐfsync²Ù×÷£¬ÓÉÓÚ²¢·ÇÇ¿ÖÆÔÚÊÂÎñÌá½»Ê±½øÐÐÒ»´Îfsync²Ù×÷£¬Õâ¿ÉÒÔÏÔÖøÌá½»Êý¾Ý¿âµÄÐÔÄÜ£¬µ«ÊÇµ±å´»úÊ±£¬ÓÉÓÚ²¿·ÖÈÕÖ¾Î´Ë¢ÐÂµ½´ÅÅÌ£¬Òò´Ë»á¶ªÊ§×îºóÒ»¶ÎÊ±¼äµÄÊÂÎñ¡£
+3. ²ÎÊýinnodb_flush_log_at_trx_commit Ä¬ÈÏÖµÎª1 ±íÊ¾ÊÂÎñÌá½»Ê±±ØÐëµ÷ÓÃÒ»´Îfsync²Ù×÷£¬0±íÊ¾ÊÂÎñÌá½»Ê±²»½øÐÐÐ´ÈëÖØ×öÈÕÖ¾²Ù×÷£¬½öÔÚmaster threadÖÐÍê³É£¬2±íÊ¾ÊÂÎñÌá½»Ê±½«ÖØ×öÈÕÖ¾Ð´ÈëÈÕÖ¾ÎÄ¼þ£¬µ«ÊÇ½øÐ´ÈëÎÄ¼þÏµÍ³»º´æ£¬²»½øÐÐfsync²Ù×÷£¬´Ë²Ù×÷ÔÚÊý¾Ý¿âå´»ú¶ø²Ù×÷ÏµÍ³²»å´»úµÄÊ±ºò£¬²»»áµ¼ÖÂÊý¾Ý¶ªÊ§£¬ÏµÍ³å´»úÊ±£¬ÖØÆôºó»á¶ªÊý¾Ý
+4. ²ÎÊýinnodb_flush_log_at_trx_commit Í¬Êý¾Ý²»Í¬Öµ±È½ÏÎª£ºÄ¬ÈÏÎª1Ê±£¬500ÍòÊý¾ÝÐ´ÈëÔ¼2·ÖÖÓ£¬0Ê±Îª13.90Ãë£¬2Ê±Îª23.37Ãë¡£
+
+¶þ. log block
+   
+ÔÚInnoDBÖÐ£¬ÖØ×öÈÕÖ¾¶¼ÊÇÒÔ512×Ö½Ú½øÐÐ´æ´¢µÄ£¬ÕâÒâÎ¶×ÅÖØ×öÈÕÖ¾¡¢»º´æÖØ×öÈÕÖ¾¶¼ÊÇÒÔ¿é£¨block£©µÄ·½Ê½½øÐÐ±£´æµÄ¡£³ÆÖ®ÎªÖØ×öÈÕÖ¾¿é£¬Ã¿¿é´óÐ¡Îª512×Ö½Ú¡£
+
+ÈôÒ»¸öÒ³²úÉúµÄÖØ×öÈÕÖ¾´óÓÚ512×Ö½Ú£¬ÄÇÃ´ÐèÒª·Ö¸îÎªµÚÒ»¸öÖØ×öÈÕÖ¾¿é£¬Ã¿¿éµÄ´óÐ¡Îª512×Ö½Ú£¬ÈôÒ»¸öÒ³ÖÐ²úÉúµÄÊýÁ¿´óÓÚ512×Ö½Ú£¬ÄÇÃ´ÐèÒª¶ÔÆä½øÐÐ·Ö¸î
+
