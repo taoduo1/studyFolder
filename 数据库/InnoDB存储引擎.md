@@ -1202,3 +1202,71 @@ undo是逻辑日志，因此只是将数据库逻辑的恢复到原来的样子，所有修改都被逻辑的取消了
 简单的来说，undo回滚的时候就是执行一个和用户相反的sql，比如说用户insert，回滚的时候就删除，用户update，回滚的时候就把原来的再更新进去，用户delete 回滚的时候就再执行一个insert。
 
 二. undo存储管理
+
+Innodb对undo的管理同样采用段的方式。但是这个段和之前介绍的段有所不同。首先Innodb 存储引擎有rollback segment（回滚段），每个回滚段记录了1024个undo log segment，而在每个 undo log segment 段中进行 undo 页的申请。共享表空间偏移量为5的也（0,5）记录了所有 rollback segment header所在的页。
+
+从1.1版本开始，Innodb支持最大128个rollback segment，所以Innodb同时支持在线事务到128*1024个事务。
+
+所有的rollback segment 都存储于共享表空间中。
+
+事务在undo log segment 分配并写入 undo log这个过程同样需要写入重做日志，在事务提交时，Innodb存储引擎会做以下两件事
+
+将 undo log放入列表中，以供之后的purge操作
+
+判断undo log所在的页是否可以重用，若可以的话，分配给下个事务使用。
+
+事务提交之后并不能马上删除undo log及 undo log所在的页，这是因为可能还有其他事务需要通过undo log 来得到行记录之前的版本，故事务提交将undo log放入一个链表中，是否可以最终删除undo log及undo log所在页由purge线程来判断。
+
+三. undo log 格式
+
+在Innodb中，undo log分为 insert undo log 和update undo log。
+
+insert undo log是指在insert操作中产生的undo log，因为insert支队事务本身课件，对其他事务不可见，所以该undo log可以在事务提交后直接进行删除。
+
+update undo log是对delete 和update操作产生的undo log，该undo可能需要提供mvcc机制，因此不能事务一提交就删除，提交时放入undo log 链表，等待purge线程最后的删除。
+![undo格式.png](InnoDB存储引擎附录/undo格式.png)
+
+<h3>7.2.3 purge</h3>
+
+delete 和update 操作可能并不直接删除原有的数据。
+
+例如我们执行一条 delete from t where a=1;
+
+表t列a上有聚集索引a，列b上有辅助索引，对于上述的delete操作，undo log是将主键列 a=1的记录的delete flag设置为1，记录并没有被删除，即记录还是存在于b+树中，
+
+其次，对于辅助索引上a=1，b=1的记录同样没有做任何处理。而真正删除这行记录的操作被延迟到 purge中完成。
+
+purge用于最终完成delete和update操作这个设计是用来支持MVCC，所以记录不能在事务提交时立即进行处理，这时其他事务可能正在引用这行，故Innodb存储引擎需要保留之前的版本。而是否可以真正删除要通过purge来判断。
+
+若该行记录已不被任何其他事务引用，那么就可以进行真正的delete操作。
+
+为了节省空间，Innodb设计是一个页上允许多个事务的undo log存在，虽然这不代表事务在全局中提交的顺序，但是后面的事务产生的undo log总是在最后的。此外Innodb还有一个history列表，它根据事务提交的顺序，将undo log进行连接。
+
+在执行purge的过程中，Innodb首先从history中找到第一个需要被清理的记录，然后在被清理的页中找到其他是否可以被清理的记录，清理完成后回去history查找下一个可以清理的undo log，再去该undo log页中找其他可以被清理的页
+
+这种模式是为了避免大量的随机读取的情况，从而提高purge的效率
+
+当Innodb的压力非常大时，并不能高效的进行purge时，那么history长度会变得越来越长，全局参数innodb_max_purge_lag用来控制history的长度（默认为0，意思是不做任何限制）当大于0时，history超过这个值，innodb就会延缓dml的操作。
+
+<h3>7.2.4 group commit</h3>
+
+若事务为非只读事务，则每次事务提交时需要进行一次fsync操作，以此保证重做日志都已经写入磁盘，当数据库发生宕机时可以通过重做日志进行恢复。
+
+因为磁盘的fsync性能是有限的，为了提交磁盘fsync的效率，当前数据库都提供了group commit的功能，即一次fsync可以刷新确保多个事务日志被写入文件。
+
+对于Innodb来说，事务提交会进行两个阶段的操作：
+
+1. 修改内存中事务对应的信息，并且将日志写入重做日志缓冲。
+2. 调用fsync将确保日志都从重做日志缓冲写入磁盘。
+
+<h2>7.3 事务控制语句</h2>
+
+在MySQL命令行默认模式下，事务都是自动提交的，即执行sql语句后就会马上执行commit操作。如果要显式的开启一个事务需使用命令begin、start transaction。用户使用的事务控制语句如下：
+
+1. start transaction | begin ：显式的开启一个事务
+2. commit：提交事务
+3. rollback：回滚事务，结束用户的事务并撤销正在进行的所有未提交的修改
+4. savepoint identifier： 允许在事务中创建一个保存点，一个事务可以有多个保存点 使用：savepoint t1
+5. release savepoint identifier：删除一个事务的保存点，当没有保存点时，进行删除会报错 使用： release savepoint t1。
+6. rollback to savepoint identifier： 这个语句与savepoint命令一起使用，作用为回滚到保存点，而不回滚次标记点之前的任何工作 使用：rollback to savepoint t1。
+7. set transaction：设置事务隔离级别。
