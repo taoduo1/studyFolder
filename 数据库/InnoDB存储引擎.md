@@ -1270,3 +1270,80 @@ purgeÓÃÓÚ×îÖÕÍê³ÉdeleteºÍupdate²Ù×÷Õâ¸öÉè¼ÆÊÇÓÃÀ´Ö§³ÖMVCC£¬ËùÒÔ¼ÇÂ¼²»ÄÜÔÚÊÂÎñÌá½
 5. release savepoint identifier£ºÉ¾³ýÒ»¸öÊÂÎñµÄ±£´æµã£¬µ±Ã»ÓÐ±£´æµãÊ±£¬½øÐÐÉ¾³ý»á±¨´í Ê¹ÓÃ£º release savepoint t1¡£
 6. rollback to savepoint identifier£º Õâ¸öÓï¾äÓësavepointÃüÁîÒ»ÆðÊ¹ÓÃ£¬×÷ÓÃÎª»Ø¹öµ½±£´æµã£¬¶ø²»»Ø¹ö´Î±ê¼ÇµãÖ®Ç°µÄÈÎºÎ¹¤×÷ Ê¹ÓÃ£ºrollback to savepoint t1¡£
 7. set transaction£ºÉèÖÃÊÂÎñ¸ôÀë¼¶±ð¡£
+
+<h2>7.4 ÒþÊ½Ìá½»µÄSQLÓï¾ä</h2>
+
+ÏÂÃæÕâÐ©sqlÓï¾ä»á²úÉúÒ»¸öÒþÊ½µÄÌá½»²Ù×÷£¬¼´Ö´ÐÐÍêÕâÐ©Óï¾äºó£¬»áÓÐÒ»¸öÒþÊ½µÄcommit²Ù×÷¡£
+
+1. DDLÓï¾ä 
+2. ÓÃÀ´ÒþÊ½µÄÐÞ¸Ämysql¼Ü¹¹µÄ²Ù×÷£ºcreate user¡¢drop user¡¢grant¡¢rename user¡¢optimize table¡¢ repair table¡£
+
+<h2>7.5 ¶ÔÊÂÎñ²Ù×÷µÄÍ³¼Æ</h2>
+
+ÓÉÓÚ Innodb ÊÇÖ§³ÖÊÂÎñµÄ£¬Òò´ËÐèÒªÔÚ¿¼ÂÇÃ¿ÃëÇëÇóÊý£¨QPS£©µÄÍ¬Ê±£¬Ó¦¹Ø×¢Ã¿ÃëµÄÊÂÎñ´¦ÀíÄÜÁ¦£¨TPS£©
+
+¼ÆËãTPSµÄ·½·¨ÊÇ(com_commit + com_rollback)/ time¡£
+
+
+<h2>7.6 ÊÂÎñµÄ¸ôÀë¼¶±ð</h2>
+
+SQL±ê×¼¶¨ÒåµÄËÄ¸ö¸ôÀë¼¶±ðÎª£º
+
+Read uncommitted(¶ÁÎ´Ìá½»)
+
+read committed(¶ÁÒÑÌá½»)
+
+repeatable read(¿ÉÖØ¸´¶Á)
+
+serializable(´®ÐÐ»¯)
+
+InnodbÄ¬ÈÏÖ§³ÖµÄ¸ôÀë¼¶±ðÊÇ repeatable read Ê¹ÓÃnext-key lockËøµÄËã·¨£¬Òò´Ë±ÜÃâ»Ã¶ÁµÄ²úÉú¡£
+
+Innodb ÔÚÄ¬ÈÏµÄ repeatable read µÄÊÂÎñ¸ôÀë¼¶±ðÏÂÒÑ¾­wÄÜÍêÈ«±£Ö¤ÊÂÎñµÄ¸ôÀëÐÔÒªÇó¡£
+
+¸ôÀë¼¶±ðÔÂµ×£¬ÊÂÎñÇëÇóµÄËøÔ½ÉÙ»ò±£³ÖËøµÄÊ±¼ä¾ÍÔ½¶Ì£¬ÕâÒ²ÊÇÎªÊ²Ã´´ó¶àÊýÊý¾Ý¿âÄ¬ÈÏµÄ¸ôÀë¼¶±ðÊÇ read committed¡£
+
+ÔÚserializable¼¶±ðÊ±£¬Innodb»á¶ÔÃ¿¸öselect Óï¾äºó×Ô¶¯¼ÓÉÏ lock in share mode£¬¼´ÎªÃ¿¸ö¶ÁÈ¡²Ù×÷¼ÓÒ»¸ö¹²ÏíËø£¬Òò´ËÔÚÕâ¸öÊÂÎñ¸ôÀë¼¶±ðÏÂ£¬¶ÁÕ¼ÓÃÁËËø£¬¶ÔÒ»ÖÂÐÔµÄ·ÇËø¶¨¶È²»ÔÚÓèÒÔÖ§³Ö¡£
+
+ÔÚread committed¼¶±ðÊ±£¬³ýÁËÎ¨Ò»ÐÔµÄÔ¼Êø¼ì²é¼°Íâ¼ìÔ¼ÊøµÄ¼ì²éÐèÒª gap lock£¬Innodb²»»áÊ¹ÓÃgap lockµÄËøËã·¨¡£
+
+<h2>7.7 ·Ö²¼Ê½ÊÂÎñ</h2>
+
+<h3>7.7.1 MySQL·Ö²¼Ê½ÊÂÎñ</h3>
+
+InnodbÌá¹©ÁË¶Ô·Ö²¼Ê½ÊÂÎñµÄÖ§³Ö£¬·Ö²¼Ê½ÊÂÎñÖ¸µÄÊÇÔÊÐí¶à¸ö¶ÀÁ¢µÄÊÂÎñ×ÊÔ´²ÎÓëµ½Ò»¸öÈ«¾ÖµÄÊÂÎñÖÐ£¬ÊÂÎñ×ÊÔ´Í¨³£ÊÇ¹ØÏµÐÍÊý¾Ý¿â¡£
+
+È«¾ÖÊÂÎñÒªÇóÔÚÆäÖÐµÄËùÓÐ²ÎÓëµÄÊÂÎñÒªÃ´¶¼Ìá½»£¬ÒªÃ´¶¼»Ø¹ö£¬ÔÚÊ¹ÓÃ·Ö²¼Ê½ÊÂÎñÊ±£¬InnodbµÄÊÂÎñ¸ôÀë¼¶±ð±ØÐëÉèÖÃÎªserializable
+
+·Ö²¼Ê½ÊÂÎñ²»ÔÊÐí²»Í¬Êý¾Ý¿âÖ®¼äµÄ·Ö²¼Ê½ÊÂÎñ¡£
+
+·Ö²¼Ê½ÊÂÎñÓÉÒ»¸ö»ò¶à¸ö×ÊÔ´¹ÜÀíÆ÷£¨Resource Managers£©¡¢Ò»¸öÊÂÎñ¹ÜÀíÆ÷£¨Transaction Manager£©ÒÔ¼°Ò»¸öÓ¦ÓÃ³ÌÐò£¨Application Program£©×é³É¡¢
+
+×ÊÔ´¹ÜÀíÆ÷£ºÌá¹©·ÃÎÊÊÂÎñ×ÊÔ´µÄ·½·¨£¬Í¨³£Ò»¸öÊý¾Ý¿â¾ÍÊÇÒ»¸ö×ÊÔ´¹ÜÀíÆ÷¡£
+
+ÊÂÎñ¹ÜÀíÆ÷£ºÐ­µ÷²ÎÓëÈ«¾ÖÊÂÎñµÄ¸÷¸öÊÂÎñ£¬ÐèÒªºÍ²ÎÓëÈ«¾ÖÊÂÎñµÄËùÓÐ×ÊÔ´¹ÜÀíÆ÷½øÐÐÍ¨Ñ¶¡£
+
+Ó¦ÓÃ³ÌÐò£º¶¨ÒåÊÂÎñµÄ±ß½ç£¬Ö¸¶¨È«¾ÖÊÂÎñÖÐµÄ²Ù×÷¡£
+
+ÔÚMySQL Êý¾Ý¿âµÄ·Ö²¼Ê½ÊÂÎñÖÐ£¬×ÊÔ´¹ÜÀíÆ÷¾ÍÊÇMySQLÊý¾Ý¿â£¬ÊÂÎñ¹ÜÀíÆ÷ÊÇÁ´½ÓMySQL·þÎñÆ÷µÄ¿Í»§¶Ë¡£
+
+![·Ö²¼Ê½ÊÂÎñÄ£ÐÍ.png](InnoDB´æ´¢ÒýÇæ¸½Â¼/·Ö²¼Ê½ÊÂÎñÄ£ÐÍ.png)
+
+·Ö²¼Ê½ÊÂÎñÊ¹ÓÃÁ½¶ÎÊ½Ìá½»µÄ·½Ê½£¬ÔÚµÚÒ»½×¶Î£¬ËùÓÐ²ÎÓëÈ«¾ÖÊÂÎñµÄ½Úµã¶¼¿ªÊ¼×¼±¸£¬¸æËßÊÂÎñ¹ÜÀíÆ÷ËüÃÇ×¼±¸ºÃÁË£¬ÔÚµÚ¶þ¸ö½×¶Î£¬ÊÂÎñ¹ÜÀíÆ÷¸æËß×ÊÔ´¹ÜÀíÆ÷Ö´ÐÐrollback»¹ÊÇcommit¡£
+Èç¹ûÈÎºÎÒ»¸ö½×¶ÎÏÔÊ½²»ÄÜÌá½»£¬ÔòËùÓÐµÄ½Úµã¶¼±»¸æÖªÐèÒª»Ø¹ö£¬¿É¼ûÓÚ±¾µØÊÂÎñ²»Í¬µÄÊÇ£¬·Ö²¼Ê½ÊÂÎñÐèÒª¶àÒ»´ÎµÄprepare²Ù×÷£¬´ýÊÕµ½ËùÓÐ½ÚµãµÄÍ¬ÒâÐÅÏ¢Ö®ºó£¬ÔÙ½øÐÐcommit»òÕßÊÇrollback²Ù×÷¡£
+
+
+<h3>7.7.2 ÄÚ²¿XAÊÂÎñ</h3>
+
+×îÎª³£¼ûµÄÄÚ²¿XAÊÂÎñ´æÔÚÓÚ binlogÓëInnodbÖ®¼ä£¬ÓÉÓÚ¸´ÖÆµÄÐèÒª£¬Ä¿Ç°¾ø´ó¶àÊýµÄÊý¾Ý¿â¶¼¿ªÆôÁËbinlog¹¦ÄÜ£¬ÔÚÊÂÎñÌá½»Ê±£¬ÏÈÐ´¶þ½øÖÆÈÕÖ¾£¬ÔÚÐ´InnodbµÄÖØ×öÈÕÖ¾£¬Èô¶þ½øÖÆÈÕÖ¾ÏÈÐ´ÁË£¬¶øÔÚÐ´InnodbÖØ×öÈÕÖ¾Ê±·¢ÉúÁËå´»ú£¬ÄÇÃ´ slave¿ÉÄÜ»á½ÓÊÕµ½master´«¹ýÈ¥µÄ¶þ½øÖÆÈÕÖ¾²¢Ö´ÐÐ£¬×îÖÕµ¼ÖÂÖ÷´Ó²»Ò»ÖÂ¡£
+
+ÎªÁË½â¾öÕâ¸öÎÊÌâ£¬MySQLÔÚbinlogÔÂInnodbÖ®¼ä²ÉÓÃXAÊÂÎñ£¬µ±ÊÂÎñÌá½»Ê±£¬Innodb»áÏÈ×öÒ»¸öprepare²Ù×÷£¬½«ÊÂÎñµÄxidÐ´Èë£¬½Ó×Å½øÐÐ¶þ½øÖÆÈÕÖ¾µÄÐ´Èë£¬Èç¹ûÔÚInnodbÌá½»Ç°£¬mysqlå´»úÁË£¬ÄÇÃ´Êý¾Ý¿âÔÚÖØÆôºó»áÏÈ¼ì²é×¼±¸µÄuxidÊÂÎñ¶¼ÒÑ¾­Ìá½»£¬ÈôÃ»ÓÐ£¬ÔòÔÚ´æ´¢ÒýÇæÔÙ½øÐÐÒ»´ÎÌá½»¡£
+
+<h2>7.8 ²»ºÃµÄÏ°¹ß</h2>
+
+1. ²»ÒªÔÚÑ­»·ÖÐÌá½»ÊÂÎñ
+2. ±ÜÃâÊ¹ÓÃ×Ô¶¯Ìá½»
+3. ±ÜÃâÊ¹ÓÃ×Ô¶¯»Ø¹ö
+
+<h2>7.9 ³¤ÊÂÎñ</h2>
+
