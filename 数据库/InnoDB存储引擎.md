@@ -156,7 +156,7 @@ Checkpoint¼¼ÊõÊÇÎªÁË½â¾öÒÔÏÂµÄÎÊÌâ£º
    2. »º³å³Ø²»¹»ÓÃÊ±£¬½«ÔàÒ³Ë¢ÐÂµ½´ÅÅÌ
    3. ÖØ×öÈÕÖ¾²»¿ÉÓÃÊ±£¬Ë¢ÐÂÔàÒ³
 
-µ±Êý¾Ý¿â·¢Éúå´»úÊ±£¬Êý¾Ý¿â²»ÐèÒªÖØ×öËùÓÐµÄÈÕÖ¾£¬ÒòÎª CheckpointÖ®Ç°µÄÒ³¶¼ÒÑ¾­Ë¢»Ø´ÅÅÌ£¬¹ÊÊý¾Ý¿âÖ»ÐèÒª¶ÔCheckpoint Ö®ºóµÄÖØ×öÈÕÖ¾½øÐÐ»Ö¸´£¬´ò´òËõ¶ÌÁË»Ö¸´µÄÊ±¼ä¡£
+µ±Êý¾Ý¿â·¢Éúå´»úÊ±£¬Êý¾Ý¿â²»ÐèÒªÖØ×öËùÓÐµÄÈÕÖ¾£¬ÒòÎª CheckpointÖ®Ç°µÄÒ³¶¼ÒÑ¾­Ë¢»Ø´ÅÅÌ£¬¹ÊÊý¾Ý¿âÖ»ÐèÒª¶ÔCheckpoint Ö®ºóµÄÖØ×öÈÕÖ¾½øÐÐ»Ö¸´£¬´ó´óËõ¶ÌÁË»Ö¸´µÄÊ±¼ä¡£
 
 ´ËÍâ£¬µ±»º³å³Ø²»¹»ÓÃÊ±£¬¸ù¾ÝLRUËã·¨»áÒç³ö×î½ü×îÉÙÊ¹ÓÃµÄÒ³£¬Õâ¸öÒ³¾ÍÊÇÔàÒ³£¬ÄÇÃ´ÐèÒªÇ¿ÖÆÖ´ÐÐ Checkpoint £¬½«ÔàÒ³Ë¢»Ø´ÅÅÌ¡£
 
@@ -178,7 +178,7 @@ Fuzzy Checkpoint Ö»Ë¢ÐÂÒ»²¿·ÖÔàÒ³£¬¶ø²»ÊÇË¢ÐÂËùÓÐµÄÔàÒ³»Ø´ÅÅÌ¡£ÔÚÒÔÏÂ¼¸ÖÖÇé¿ö¿ÉÄ
 InnoDBÐèÒª±£Ö¤LRUÁÐ±íÖÐÐèÒªÓÐ²î²»¶à100¸ö¿ÕÏÐÒ³¿É¹©Ê¹ÓÃ£¬Èç¹û¿ÕÏÐÒ³²»×ã100Ê±£¬InnoDB»á½«LRUÎ²²¿µÄÒ³ÒÆ³ý£¬Èç¹ûÕâÐ©Ò³ÖÐÓÐÔàÒ³µÄ»°£¬¾Í»á½øÐÐ Checkpoint
 
 3. Async/Sync Flush Checkpoint
-ÖØ×öÈÕÖ¾ÎÄ¼þ²»¿ÉÓÃÊ±£¬ÐèÒªÇ¿ÖÆ½«Ò»Ð©Ò²Ë¢ÐÂ»Ø´ÅÅÌ£¬´ËÊ±ÔàÒ³ÊÇ´ÓÔàÒ³ÁÐ±íÖÐÑ¡È¡µÄ¡£ÔÚMySQL 5.6Ö®Ç°£¬»á×èÈûÓÃ»§Ïß³Ì£¬5.6Ö®ºó²»»á×èÈûÓÃ»§Ïß³Ì
+ÖØ×öÈÕÖ¾ÎÄ¼þ²»¿ÉÓÃÊ±£¬ÐèÒªÇ¿ÖÆ½«Ò»Ð©Ò³Ë¢ÐÂ»Ø´ÅÅÌ£¬´ËÊ±ÔàÒ³ÊÇ´ÓÔàÒ³ÁÐ±íÖÐÑ¡È¡µÄ¡£ÔÚMySQL 5.6Ö®Ç°£¬»á×èÈûÓÃ»§Ïß³Ì£¬5.6Ö®ºó²»»á×èÈûÓÃ»§Ïß³Ì
 
 4. Dirty Page too much Checkpoint
 ×îºóÒ»ÖÖÊÇÔàÒ³Ì«¶à£¬µ¼ÖÂInnoDB Ç¿ÖÆ½øÐÐ Checkpoint£¬ÊÇÎªÁË±£Ö¤»º³å³ØÖÐÓÐ×ã¹»¿ÉÓÃµÄÒ³¡£
@@ -193,7 +193,7 @@ Master Thread ¾ßÓÐ×î¸ßµÄÏß³ÌÓÅÏÈ¼¶±ð¡£ÆäÄÚ²¿ÓÉ¶à¸öloop×é³É£ºÖ÷Ñ­»·¡¢ºóÌ¨Ñ­»·¡¢Ë¢
 Ö÷Ñ­»·Í¨¹ý Thread.sleep()ÊµÏÖ£¬Ã¿Ò»Ãë²Ù×÷°üÀ¨£º
 1. ÈÕÖ¾»º´æË¢ÐÂµ½´ÅÅÌ£¬¼´Ê¹Õâ¸öÊÂÎñ»¹Ã»ÓÐÌá½»£¨×ÜÊÇ£©
 2. ºÏ²¢²åÈë»º´æ£¨¿ÉÄÜ£©
-3. Ö®¶àË¢ÐÂ100¸öInnoDBµÄ»º³å³ØÖÐµÄÔàÒ³µ½´ÅÅÌ£¨¿ÉÄÜ£©
+3. ÖÁ¶àË¢ÐÂ100¸öInnoDBµÄ»º³å³ØÖÐµÄÔàÒ³µ½´ÅÅÌ£¨¿ÉÄÜ£©
 4. Èç¹ûµ±Ç°Ã»ÓÐÓÃ»§»î¶¯£¬ÔòÇÐ»»µ½background loop£¨¿ÉÄÜ£©
 
 Ã¿10ÃëµÄ²Ù×÷°üÀ¨£º
@@ -242,7 +242,7 @@ InnoDB ´æ´¢ÒýÇæµÄ¹Ø¼üÌØÐÔ°üÀ¨
 
 ÔÚÕâÖÖÇé¿öÏÂ£¬²úÉúÁËÒ»¸ö·Ç¾Û¼¯µÄÇÒ²»ÊÇÎ¨Ò»µÄË÷Òý£¬ÔÚ½øÐÐ²åÈë²Ù×÷Ê±£¬Êý¾ÝÒ³µÄ´æ·Å»¹ÊÇ°´Ö÷¼üa½øÐÐË³Ðò´æ·ÅµÄ£¬µ«ÊÇ¶ÔÓÚ·Ç¾Û¼¯Ë÷ÒýÒ¶×Ó½áµãµÄ²åÈë²»ÔÙÊÇË³ÐòµÄÁË£¬ÕâÊ±ºò¾ÍÐèÒªÀëÉ¢µØ·ÃÎÊ·Ç¾Û¼¯Ë÷ÒýÒ³£¬ÓÉÓÚËæ»ú¶ÁÈ¡µÄ´æÔÚ¶øµ¼ÖÂÁË²åÈë²Ù×÷ÐÔÄÜÏÂ½µ¡£µ±È»Õâ²¢²»ÊÇÕâ¸öb×Ö¶ÎÉÏË÷ÒýµÄ´íÎó£¬¶øÊÇÒòÎªB+Ê÷µÄÌØÐÔ¾ö¶¨ÁË·Ç¾Û¼¯Ë÷Òý²åÈëµÄÀëÉ¢ÐÔ¡£
 
-InnoDB´æ´¢ÒýÇæ¿ª´´ÐÔµÄÉè¼ÆÁËInsert Buffer£¬¶ÔÓÚ·Ç¾Û¼¯Ë÷ÒýµÄ²åÈë»ò¸üÐÂ²Ù×÷£¬²»ÊÇÃ¿Ò»´ÎÖ±½Ó²åÈëµ½Ë÷ÒýÒ³ÖÐ£¬¶øÊÇÏÈÅÐ¶Ï²åÈëµÄ·Ç¾Û¼¯Ë÷ÒýÒ³ÊÇ·ñÔÚ»º³å³ØÖÐ£¬ÈôÔÚ£¬ÔòÖ±½Ó²åÈë£¬ÔòÏÈ·ÅÈëµ½Ò»¸öInsert Buffer ¶ÔÏóÖÐ£¬È»ºóÔÙÒÔÒ»¶¨µÄÆµÂÊºÍÇé¿ö£¬½«Insert Buffer ºÍ¸¨ÖúË÷ÒýÒ³×Ó½ÚµãµÄmerge²Ù×÷£¬ÕâÊ±Í¨³£»á½«¶à¸ö²åÈëºÏ²¢µ½Ò»¸ö²Ù×÷ÖÐ£¬´ó´óÌá¸ßÁË¶ÔÓÚ·Ç¾Û¼¯Ë÷Òý²åÈëµÄÐÔÄÜ¡£
+InnoDB´æ´¢ÒýÇæ¿ª´´ÐÔµÄÉè¼ÆÁËInsert Buffer£¬¶ÔÓÚ·Ç¾Û¼¯Ë÷ÒýµÄ²åÈë»ò¸üÐÂ²Ù×÷£¬²»ÊÇÃ¿Ò»´ÎÖ±½Ó²åÈëµ½Ë÷ÒýÒ³ÖÐ£¬¶øÊÇÏÈÅÐ¶Ï²åÈëµÄ·Ç¾Û¼¯Ë÷ÒýÒ³ÊÇ·ñÔÚ»º³å³ØÖÐ£¬ÈôÔÚ£¬ÔòÖ±½Ó²åÈë£¬·ñÔòÏÈ·ÅÈëµ½Ò»¸öInsert Buffer ¶ÔÏóÖÐ£¬È»ºóÔÙÒÔÒ»¶¨µÄÆµÂÊºÍÇé¿ö£¬½«Insert Buffer ºÍ¸¨ÖúË÷ÒýÒ³×Ó½ÚµãµÄmerge²Ù×÷£¬ÕâÊ±Í¨³£»á½«¶à¸ö²åÈëºÏ²¢µ½Ò»¸ö²Ù×÷ÖÐ£¬´ó´óÌá¸ßÁË¶ÔÓÚ·Ç¾Û¼¯Ë÷Òý²åÈëµÄÐÔÄÜ¡£
 
 Insert Buffer µÄÊ¹ÓÃÐèÒªÂú×ãÒÔÏÂÁ½¸öÌõ¼þ£º
 1. Ë÷ÒýÊÇ¸¨ÖúË÷Òý
