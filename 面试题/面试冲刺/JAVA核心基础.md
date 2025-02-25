@@ -310,6 +310,15 @@ jvm检测到不同的竞争状态的时候，会自动切换不同的锁实现�
 重量级锁对象头：       无          10
 
 
+并发容器（ConcurrentHashMap分段锁 vs CAS） 暂时搁置
+
+模块化（JPMS）、Record类、Pattern Matching
+JPMS模块化 src/main/java 目录下创建module-info.java 文件，文件内声明引用的包，好处是包明确，之前没有的时候，使用jar包是使用找到的第一个包
+Record类,java层面的pojo类，但是不允许修改，实际设置属性为final
+Pattern Matching 模式匹配用于简化对象类型检查和提取的代码 16 支持 instanceof 模式匹配 21支持 switch 模式匹配
+
+
+响应式编程（Reactor、WebFlux核心思想）
 
 
 
